@@ -3,14 +3,12 @@ from mpmath import *
 from math import cosh, sinh, sin, cos, sqrt, pow, pi
 import matplotlib.pyplot as plt
 from matplotlib import cm
-mp.dps = 3
-
 # dimensions in m
 a = 20/1000
 b = 20/1000
 
-x_c = a/2
-y_c = b/2
+x_c = 5/1000
+y_c = 10/1000
 
 c = 2/1000
 d = 2/1000
@@ -18,9 +16,9 @@ d = 2/1000
 T_f = 20 # in °C
 h = 1*pow(10, 4) # example
 t1 = 5/1000
-k1 = 239 # aluminium
+k1 = 236 
 
-Q_in = 5 # Watt?
+Q_in = 25 # Watt?
 
 _delta = lambda n: n*pi/b
 _lambda = lambda m: m*pi/a
@@ -94,10 +92,18 @@ def thermal_resistance():
 
 
 if __name__=="__main__":
-    nr = 0.001
-    x_coords = np.arange(0, a, nr)
+    
+    print('Full run takes approximately 45mins!')
+    
+    mp.dps = 15 # for resistance calculation higher precision is needed
+    print("Thermal resistance of plate: {}".format(thermal_resistance()))
+
+
+    mp.dps = 4 # set to one for very rough but fast calculation
+    step = 0.001
+    x_coords = np.arange(0, a, step)
     print(x_coords)
-    y_coords = np.arange(0, b, nr)
+    y_coords = np.arange(0, b, step)
     print(y_coords)
     X_mesh, Y_mesh = np.meshgrid(x_coords, y_coords)
     fig, axes = plt.subplots(nrows=1, ncols=6)
@@ -122,6 +128,3 @@ if __name__=="__main__":
     fig.colorbar(cset1, cax=cbar_ax)
     plt.savefig('figure.pdf')    
     plt.show()
-
-    mp.dps = 15 # for resistance calculation higher precision is needed
-    print("Thermal resistance of plate: {}".format(thermal_resistance()))
