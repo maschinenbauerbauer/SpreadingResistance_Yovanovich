@@ -108,10 +108,10 @@ def thermal_resistance():
     return theta_stroked()/Q_in # = R_1D + R_s
 
 
-def split_height(height):
-    step = height / 6
+def split_height(height, nr):
+    step = height / nr
     ret = []
-    for i in range(0, 6):
+    for i in range(0, nr):
         ret.append(i*step)
     return ret
 
@@ -123,17 +123,19 @@ if __name__=="__main__":
     print("Thermal resistance of plate: {}".format(thermal_resistance()))
 
 
-    mp.dps = 4 # set to one for very rough but fast calculation
-    step = 0.001
+    mp.dps = 1 # set to one for very rough but fast calculation
+    step = 0.002
     x_coords = np.arange(0, a, step)
     print(x_coords)
     y_coords = np.arange(0, b, step)
     print(y_coords)
     X_mesh, Y_mesh = np.meshgrid(x_coords, y_coords)
+
+    # FIRST LAYER
     fig, axes = plt.subplots(nrows=1, ncols=6)
     fig.set_size_inches(15, 2)
 
-    for nr, x in enumerate(split_height(t1)):
+    for nr, x in enumerate(split_height(t1, 6)):
         Z_mesh = theta_xyz(X_mesh, Y_mesh, x)
         print(Z_mesh)
 
@@ -148,7 +150,7 @@ if __name__=="__main__":
 
     fig.subplots_adjust(left=0.01, right=0.82, wspace=0.05)
     cbar_ax = fig.add_axes([0.85, 0.15, 0.05, 0.7])
-
     fig.colorbar(cset1, cax=cbar_ax)
     plt.savefig('figure.pdf')
+    
     plt.show()
