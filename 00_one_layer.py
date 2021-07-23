@@ -15,7 +15,7 @@ c = 1.75/1000
 d = 1.75/1000
 
 T_f = 25 # in °C
-h = 1*pow(10, 4) # example
+h = 1.5*pow(10, 4) # example
 t1 = 1.3/1000
 k1 = 386
 
@@ -108,11 +108,16 @@ if __name__=="__main__":
     print('Full run takes approximately 45mins!')
     
     mp.dps = 15 # for resistance calculation higher precision is needed
-    print("Thermal resistance of plate: {}".format(thermal_resistance()))
+    R_t = thermal_resistance()
+    print("Total thermal resistance of plate: {}".format(R_t))
+    
+    R_1d = t1/(k1*a*b) + 1/(h*a*b)
+    R_s = R_t - R_1d
+    print("One dimensional resistance of plate: {}".format(R_1d))
+    print("Spreading resistance of plate: {}".format(R_s))
 
-
-    mp.dps = 4 # set to one for very rough but fast calculation
-    step = 0.001
+    mp.dps = 1 # set to one for very rough but fast calculation
+    step = 0.002
     x_coords = np.arange(0, a, step)
     print(x_coords)
     y_coords = np.arange(0, b, step)
