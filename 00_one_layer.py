@@ -116,8 +116,8 @@ if __name__=="__main__":
     print("One dimensional resistance of plate: {}".format(R_1d))
     print("Spreading resistance of plate: {}".format(R_s))
 
-    mp.dps = 1 # set to one for very rough but fast calculation
-    step = 0.002
+    mp.dps = 4 # set to one for very rough but fast calculation
+    step = 0.001
     x_coords = np.arange(0, a, step)
     print(x_coords)
     y_coords = np.arange(0, b, step)
